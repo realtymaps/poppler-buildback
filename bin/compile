@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+
+set -e
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+# Poppler
+VERSION="0.22.0"
+FILE_NAME="poppler-${VERSION}.tar.gz"
+
+mkdir -p $CACHE_DIR
+if ! [ -e $CACHE_DIR/$FILE_NAME ]; then
+  echo "-----> building Poppler buildpack binaries"
+  cd $CACHE_DIR
+  curl https://poppler.freedesktop.org/$FILE_NAME > $CACHE_DIR/$FILE_NAME
+  tar -xzf $FILE_NAME
+  cd "poppler-${VERSION}"
+  DISABLED="--disable-abiword-output --disable-gtk-test --disable-poppler-qt --disable-poppler-qt4 --disable-splash-output --disable-gdk"
+  ./configure --enable-static=yes --enable-shared=no $DISABLE
+  make
+fi

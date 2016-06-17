@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# bin/use <build-dir>
+
+# this always succeeds
+echo "poppler" && exit 0
